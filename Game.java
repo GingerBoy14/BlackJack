@@ -1,3 +1,12 @@
+/**
+ *
+ * create by Maxim Makarov
+ *
+ * in 08.04.2018
+ *
+ * version 2.0
+ *
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,40 +26,39 @@ public class Game {
     JButton submitBet = new JButton("Submit");
     JButton clear = new JButton("clear");
 
-    int bank = 1000;
+    int bank = 1000; //start capital
     int bet = 0;
     int playerSumRank, dilerSumRank;
-    boolean checking = false;
-    boolean firstTry = true;
+    boolean checking = false;  //value for check "if we get bet"
+    boolean firstTry = true;   //value for correct working checking loop
 
 
     public static void main(String[] args) {
         Game game = new Game();
         game.getFrame();
-
     }
-
+                                //main loop
     public void getFrame() {
 
-
-
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();     //get screen size to set frame in center of screen
         frame.setBounds((int) screenSize.getWidth() / 2 - 400, (int) (screenSize.getHeight() / 2 - 325), 800, 650);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setResizable(false);
+
+        //set size of frame to set size for elements
         int hg = frame.getHeight();
         int wd = frame.getWidth();
 
-
+        //inicialize players fields
         DrawCards player = new DrawCards(1);
         DrawCards diler = new DrawCards(1);
         diler.setLayout(null);
         player.setLayout(null);
 
-
+        //set diler field
         diler.setBounds(0, 0, (int) (wd * 0.8), (int) (hg * 0.4));
+        //get diler size to correct set LOCATION for another panels
         int x = diler.getWidth();
         int y = diler.getHeight();
         labelDiler = new JLabel();
@@ -61,7 +69,7 @@ public class Game {
         diler.add(labelDiler);
 
         dilersumcards = new JLabel();
-        dilersumcards.setBounds(0, 0, 150, 50);
+        dilersumcards.setBounds(0, 0, 160, 50);
         dilersumcards.setFont(new Font("Arial", Font.BOLD, 15));
         dilersumcards.setForeground(Color.BLACK);
         dilersumcards.setText("Sum of cards = " + diler.getSumRank());
@@ -69,8 +77,8 @@ public class Game {
 
         frame.add(diler);
 
-
-        player.setBounds(0, y + 95, (int) (wd * 0.8), ((int) (hg * 0.4)));
+        //set player field
+        player.setBounds(0, y + 100, (int) (wd * 0.8), ((int) (hg * 0.4)));
         labelPlayer = new JLabel();
         labelPlayer.setBounds(x / 2 - 25, 0, x, 50);
         labelPlayer.setFont(new Font("Arial", Font.BOLD, 30));
@@ -79,7 +87,7 @@ public class Game {
         player.add(labelPlayer);
 
         playersumcards = new JLabel();
-        playersumcards.setBounds(0, 0, 150, 50);
+        playersumcards.setBounds(0, 0, 160, 50);
         playersumcards.setFont(new Font("Arial", Font.BOLD, 15));
         playersumcards.setForeground(Color.BLACK);
         playerSumRank = player.getSumRank();
@@ -88,15 +96,14 @@ public class Game {
 
         frame.add(player);
 
-
+        //inicialize panels
         DrawInterface info = new DrawInterface(0, 0, wd, hg);
-        DrawInterface button = new DrawInterface(0, y, (int) (wd * 0.8), (int) (hg * 0.15));
+        DrawInterface button = new DrawInterface(0, y, (int) (wd * 0.8), (int) (hg * 0.2));
         info.setLayout(null);
         button.setLayout(null);
 
-
+        //set info panel
         info.setBounds(x, 0, (int) (wd * 0.2), hg);
-
         Bank = new JLabel();
         Bank.setBounds(0, 0, 160, 30);
         Bank.setFont(new Font("Arial", Font.BOLD, 20));
@@ -114,9 +121,10 @@ public class Game {
         Bet.setForeground(Color.BLACK);
         Bet.setText("Bet:" + bet);
         info.add(Bet);
-        submitBet.setBounds(30, 90, 75, 25);
+        submitBet.setBounds(30, 90, 85, 25);
 
-        submitBet.addActionListener(new ActionListener() {
+        submitBet.addActionListener(new ActionListener() {        //loop for Submit botton
+
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -131,15 +139,16 @@ public class Game {
         info.add(submitBet);
         frame.add(info);
 
-
-        button.setBounds(0, y, (int) (wd * 0.8), (int) (hg * 0.15));
+        //set panel with bottons
+        button.setBounds(0, y, (int) (wd * 0.8), (int) (hg * 0.2));
         Start.setBounds(20, y + 10, 70, 25);
-        Hit.setBounds(180, y + 30, 50, 30);
-        Stand.setBounds(270, y + 30, 70, 30);
+        Hit.setBounds(180, y + 30, 55, 30);
+        Stand.setBounds(270, y + 30, 80, 30);
         DoubleDown.setBounds(390, y + 30, 130, 30);
+        clear.setBounds(20, y + 60, 70, 25);
 
-        clear.setBounds(20, y + 60, 65, 25);
-        clear.addActionListener(new ActionListener() {
+        clear.addActionListener(new ActionListener() {        //loop for clear botton
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 clear();
@@ -167,13 +176,16 @@ public class Game {
             }
         });
         button.add(clear);
+
+        //enabled(false) for all wrong button for don't get error
         clear.setEnabled(false);
         Hit.setEnabled(false);
         Stand.setEnabled(false);
         DoubleDown.setEnabled(false);
         Start.setEnabled(false);
 
-        Start.addActionListener(new ActionListener() {
+        Start.addActionListener(new ActionListener() {        //loop for Start botton
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -215,7 +227,8 @@ public class Game {
         });
         button.add(Start);
 
-        Hit.addActionListener(new ActionListener() {
+        Hit.addActionListener(new ActionListener() {    //loop for Hit botton
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 player.paintCards(1);
@@ -227,7 +240,8 @@ public class Game {
         });
         button.add(Hit);
 
-        Stand.addActionListener(new ActionListener() {
+        Stand.addActionListener(new ActionListener() {          //loop for Stand botton
+
             @Override
 
             public void actionPerformed(ActionEvent e) {
@@ -245,7 +259,8 @@ public class Game {
         });
         button.add(Stand);
 
-        DoubleDown.addActionListener(new ActionListener() {
+        DoubleDown.addActionListener(new ActionListener() {        //loop for Double Down botton
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 int b = bet;
@@ -292,28 +307,27 @@ public class Game {
         });
         button.add(DoubleDown);
         frame.add(button);
+
+        //need to correct paint frame
         frame.validate();
-
-
-
+        frame.repaint();
 
     }
 
-
-
+    //check entered bet and if all OK enable Start button
     public boolean submitBet() {
-
         String str = getBet.getText();
+
         do {
-            if (str.equals("")) {
+            if (str.equals("")) { //just in case
                 JOptionPane.showMessageDialog(frame, "Enter your bet.","Incorrect value", JOptionPane.ERROR_MESSAGE);
                 break;
             }
             int getbet = Integer.parseInt(getBet.getText());
-            if (getbet < 1 || getbet > bank) {
+            if (getbet < 1 || getbet > bank) { // entered incorrect value
                 JOptionPane.showMessageDialog(frame, "Enter CORRECT bet. Please.","Incorrect value", JOptionPane.ERROR_MESSAGE);
                 break;
-            } else {
+            } else { // all OK
                 bank = bank - getbet;
                 bet = bet + getbet;
                 Bet.setText("Bet: " + bet);
@@ -322,8 +336,10 @@ public class Game {
                 checking = true;
             }
         } while (checking == false);
-return checking;
+    return checking;
     }
+
+    //need if player choise play 1 more game for reser all fields
 private void clearAll(){
      bank = 1000;
      bet = 0;
@@ -339,6 +355,8 @@ private void clearAll(){
     dilersumcards.setText("Sum of cards = " + 0);
 
 }
+
+//need to clear players fields after 1 deal
 private void clear(){
 
      checking = false;
@@ -353,10 +371,12 @@ private void clear(){
     dilersumcards.setText("Sum of cards = " + 0);
 
 }
+
+//loop for get winner
 public void getStatusGame( int playerSumRank, int dilerSumRank){
 
-            if (playerSumRank > dilerSumRank && playerSumRank<=21 || dilerSumRank>21 && playerSumRank<=21 ){
-
+            if (playerSumRank > dilerSumRank && playerSumRank<=21 || dilerSumRank>21 && playerSumRank<=21 ) // == player WIN
+            {
                 bank = bank + bet*2;
                 bet = 0;
                 Bet.setText("Bet: " + bet);
@@ -369,9 +389,7 @@ public void getStatusGame( int playerSumRank, int dilerSumRank){
                 Stand.setEnabled(false);
                 DoubleDown.setEnabled(false);
 
-            }else if (playerSumRank == dilerSumRank){
-
-
+            }else if (playerSumRank == dilerSumRank) { // == nobody win, return money to player (have bug: if player and diler have > 21 point, i don't know what to do)
 
                 Hit.setEnabled(false);
                 Stand.setEnabled(false);
@@ -382,8 +400,7 @@ public void getStatusGame( int playerSumRank, int dilerSumRank){
                 Bet.setText("Bet: " + bet);
                 Bank.setText("Bank: " + bank);
 
-            }else if (dilerSumRank > playerSumRank && dilerSumRank <=21 || playerSumRank > 21 || dilerSumRank == 21){
-
+            }else if (dilerSumRank > playerSumRank && dilerSumRank <=21 || playerSumRank > 21 || dilerSumRank == 21){ // == player LOSE
 
                 bet = 0;
                 bank = bank - bet;
@@ -392,17 +409,10 @@ public void getStatusGame( int playerSumRank, int dilerSumRank){
                 labelPlayer.setText("Player: Lose");
                 labelDiler.setText("Diler: Win");
 
-
                 Hit.setEnabled(false);
                 Stand.setEnabled(false);
                 DoubleDown.setEnabled(false);
             }
 
-
-
     }
-
 }
-
-
-
